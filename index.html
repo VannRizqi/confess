@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>For Lisa ♡</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe8ef, #ffd1df, #f9c5d7);
+      color: #5b3040;
+    }
+
+    /* =========================
+       BACKGROUND HEARTS
+       ========================= */
+
+    .floating-heart {
+      position: fixed;
+      bottom: -50px;
+      pointer-events: none;
+      opacity: 0.5;
+      animation: naik 8s linear forwards;
+      z-index: 0;
+    }
+
+    @keyframes naik {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+
+    /* =========================
+       OPEN SCREEN
+       ========================= */
+
+    .opening {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+
+    .opening.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .opening h2 {
+      color: #bd4d72;
+      margin-bottom: 35px;
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+
+    /* =========================
+       ENVELOPE
+       ========================= */
+
+    .envelope {
+      position: relative;
+      width: 300px;
+      height: 190px;
+      cursor: pointer;
+      perspective: 1000px;
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    .envelope-body {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #fff7f9;
+      border-radius: 8px;
+      box-shadow: 0 15px 35px rgba(120, 50, 80, 0.25);
+      overflow: hidden;
+    }
+
+    /* Bagian depan amplop */
+
+    .envelope-body::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      width: 0;
+      height: 0;
+
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 110px solid #f7d3df;
+
+      z-index: 3;
+    }
+
+    .envelope-body::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      width: 0;
+      height: 0;
+
+      border-left: 150px solid #f3c6d5;
+      border-top: 95px solid transparent;
+
+      z-index: 4;
+    }
+
+    /* Tutup amplop */
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 0;
+      height: 0;
+
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-top: 105px solid #f9dce5;
+
+      transform-origin: top;
+      transition: transform 0.8s ease;
+      z-index: 5;
+    }
+
+    /* Hati di tengah */
+
+    .seal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+
+      width: 55px;
+      height: 55px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: #d45b82;
+      color: white;
+
+      border-radius: 50%;
+      font-size: 27px;
+
+      z-index: 6;
+
+      box-shadow: 0 5px 15px rgba(180, 60, 100, 0.3);
+
+      transition: 0.5s ease;
+    }
+
+    .envelope:hover .seal {
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .envelope.open {
+      animation: none;
+    }
+
+    @keyframes floating {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+
+    /* =========================
+       LETTER
+       ========================= */
+
+    .letter {
+      position: fixed;
+      width: 90%;
+      max-width: 650px;
+      max-height: 85vh;
+
+      padding: 35px 30px;
+
+      overflow-y: auto;
+
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(15px);
+
+      border-radius: 25px;
+
+      box-shadow:
+        0 20px 60px rgba(100, 40, 70, 0.25);
+
+      text-align: center;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transform: translateY(40px) scale(0.9);
+
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        visibility 0.8s;
+
+      z-index: 5;
+    }
+
+    .letter.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .letter-heart {
+      font-size: 48px;
+      color: #d45b82;
+      animation: heartbeat 1.5s infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    .letter h1 {
+      color: #c44f76;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .message strong {
+      color: #c44f76;
+      font-size: 19px;
+    }
+
+    .question {
+      margin-top: 25px;
+
+      color: #c44f76;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .signature {
+      margin-top: 25px;
+
+      font-size: 14px;
+      line-height: 1.7;
+
+      opacity: 0.7;
+    }
+
+
+    /* =========================
+       YOUTUBE
+       ========================= */
+
+    #youtubeMusic {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+
+      left: -9999px;
+      top: -9999px;
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       FLOATING HEARTS
+       ========================= -->
+
+  <script>
+
+    function createHeart() {
+
+      const heart = document.createElement("div");
+
+      heart.className = "floating-heart";
+
+      const symbols = ["♡", "♥", "❤", "♡"];
+
+      heart.innerHTML =
+        symbols[Math.floor(Math.random() * symbols.length)];
+
+      heart.style.left =
+        Math.random() * 100 + "vw";
+
+      heart.style.fontSize =
+        (Math.random() * 18 + 14) + "px";
+
+      heart.style.animationDuration =
+        (Math.random() * 4 + 5) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 9000);
+    }
+
+    setInterval(createHeart, 700);
+
+  </script>
+
+
+  <!-- =========================
+       OPENING
+       ========================= -->
+
+  <div class="opening" id="opening">
+
+    <h2>
+      I have something for you, Lisa ♡
+    </h2>
+
+
+    <div class="envelope" id="envelope">
+
+      <div class="envelope-body"></div>
+
+      <div class="flap"></div>
+
+      <div class="seal">
+        ♥
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       LETTER
+       ========================= -->
+
+  <div class="letter" id="letter">
+
+    <div class="letter-heart">
+      ♡
+    </div>
+
+
+    <h1>
+      Hai, Lisa ♡
+    </h1>
+
+
+    <div class="message">
+
+      Hai Lisa, aku mau bilang kalau saat ini ngobrol sama kamu
+      tuh bikin hati aku nyaman, dan kamu juga orangnya lucu banget,
+      beda dari yang lain.
+
+      <br><br>
+
+      Mungkin nggak cukup cuma dengan satu kata untuk mendefinisikan
+      kamu, tapi menurut aku...
+
+      <br><br>
+
+      <strong>
+        you are perfect for me.
+      </strong>
+
+    </div>
+
+
+    <div class="question">
+      And so... will you be my girlfriend? ♡
+    </div>
+
+
+    <div class="signature">
+
+      Jawabnya nggak usah cepet-cepet juga gapapa kok.<br>
+
+      Ambil jawaban sesuai keinginan kamu,
+      bukan perasaan aku ^⁠_⁠^
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       YOUTUBE MUSIC
+       ========================= -->
+
+  <div id="youtubeMusic">
+
+    <iframe
+      id="musicFrame"
+      width="1"
+      height="1"
+
+      title="One Call Away - Charlie Puth"
+
+      frameborder="0"
+
+      allow="autoplay; encrypted-media">
+
+    </iframe>
+
+  </div>
+
+
+  <script>
+
+    const envelope =
+      document.getElementById("envelope");
+
+    const opening =
+      document.getElementById("opening");
+
+    const letter =
+      document.getElementById("letter");
+
+    const musicFrame =
+      document.getElementById("musicFrame");
+
+
+    envelope.addEventListener("click", function() {
+
+      /* Buka amplop */
+      envelope.classList.add("open");
+
+
+      /*
+        Tunggu sebentar supaya animasi
+        amplop terlihat terlebih dahulu.
+      */
+
+      setTimeout(() => {
+
+        opening.classList.add("hide");
+
+        letter.classList.add("show");
+
+
+        /*
+          Memulai lagu setelah Lisa
+          melakukan klik pada amplop.
+        */
+
+        musicFrame.src =
+          "https://www.youtube.com/embed/BxuY9FET9Y4" +
+          "?autoplay=1" +
+          "&start=33" +
+          "&loop=1" +
+          "&playlist=BxuY9FET9Y4" +
+          "&controls=0";
+
+
+      }, 700);
+
+    });
+
+  </script>
+
+</body>
+</html>
